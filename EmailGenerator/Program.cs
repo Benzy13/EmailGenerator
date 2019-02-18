@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace EmailGenerator
 {
@@ -10,12 +7,14 @@ namespace EmailGenerator
     {
         static void Main(string[] args)
         {
-            string[] lines = new string[100];
-            int guidLength = 5;
-            for (var j = 0; j < 100; j++)
+            string[] strArray = new string[201];
+
+            for (var j = 1; j < 201; j++)
             {
+                int guidLength = 5;
                 int[] numArray = new int[guidLength];
                 char[] charArray = new char[guidLength];
+                string[,] strMatrix = new string[201, 4];
 
                 for (var i = 0; i < guidLength; i++)
                 {
@@ -27,12 +26,22 @@ namespace EmailGenerator
 
                 string recipient = new string(charArray);
 
-                var random = new Random();
-              //  string emailAddress = "Gesa" + IntUtil.Random(10, 100) + recipient + IntUtil.Random(10, 100) + "@PrimeLogic.co.za";
-                string emailAddress = "Gesa" + random.Next(10,100) + recipient + random.Next(10, 100) + "@PrimeLogic.co.za";
-                lines[j] = emailAddress;
-                System.IO.File.WriteAllLines(@"C:\Users\Jean.PrimeLogic\Documents\Visual Studio 2015\TestFolder\WriteLines.txt", lines);
+                //compile a line in the text document
+                string emailAddress = "Gesa" + IntUtil.Random(10, 100) + recipient + IntUtil.Random(10, 100) + "@PrimeLogic.co.za";
+                strMatrix[j, 0] = emailAddress;
+                strMatrix[j, 1] = recipient;
+                strMatrix[j, 2] = recipient;
+                strMatrix[j, 3] = "0000000000";
+
+                Guid x = Guid.NewGuid();
+                var xGuid = Convert.ToString(x);
+
+                strArray[0] = "Email Address\tFirst Name\tLast Name\tMobile Number\tGuid";
+                strArray[j] = strMatrix[j, 0] + "\t" + strMatrix[j, 1] + "\t" + strMatrix[j, 2] + "\t" + strMatrix[j, 3] + "\t" + xGuid;
             }
+            File.WriteAllLines(@"C:\Users\Jean.PrimeLogic\Documents\Visual Studio 2015\TestFolder\GesaTestEmails.txt", strArray);
+
+            //ReadFile.Read();
         }
     }
 }
